@@ -1,0 +1,25 @@
+buildscript {
+    ext {
+        compose_ui_version = '1.3.3'    //https://developer.android.google.cn/jetpack/androidx/releases/compose
+        kotlin_compiler_version = '1.4.0'  //compose与kotlin兼容对应关系 https://developer.android.google.cn/jetpack/androidx/releases/compose-kotlin?hl=zh-cn
+        kotlin_version = '1.8.0'   //https://kotlinlang.org/docs/home.html
+        hilt_version = '2.44.2'     //https://developer.android.google.cn/jetpack/androidx/releases/hilt
+    }
+    repositories {
+        google()
+        mavenCentral()
+        //Lottie 托管在 Sonatype 仓库中，所以还需要在项目的 build.gradle 文件中添加上 Sonatype 仓库
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+
+        maven { url 'https://maven.aliyun.com/repository/central' }    //central
+        maven { url 'https://maven.aliyun.com/repository/public' }  //jcenter、public
+        maven { url 'https://maven.aliyun.com/repository/google' }  //google
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }  //gradle-plugin
+    }
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    id 'com.android.application' version '7.4.1' apply false
+    id 'com.android.library' version '7.4.1' apply false
+    id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
+    id 'com.google.dagger.hilt.android' version "$hilt_version" apply false
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyWeather</string>
+<!-- 按钮 -->
+    <string name="error_button">Tap the screen to reload</string>
+
+<!-- 天气现象 -->
+    <string name="sky_clear">Clear</string>
+    <string name="sky_partly_cloudy">Partly cloudy</string>
+    <string name="sky_cloudy">Cloudy</string>
+    <string name="sky_strong_wind">Strong wind</string>
+    <string name="sky_light_rain">Light rain</string>
+    <string name="sky_moderate_rain">Moderate rain</string>
+    <string name="sky_heavy_rain">Heavy rain</string>
+    <string name="sky_rainstorm">Rainstorm</string>
+    <string name="sky_thunderstorm">Thunderstorm</string>
+    <string name="sky_light_snow">Light snow</string>
+    <string name="sky_moderate_snow">Moderate snow</string>
+    <string name="sky_heavy_snow">Heavy snow</string>
+    <string name="sky_blizzard">Blizzard</string>
+    <string name="sky_mild_haze">Mild haze</string>
+    <string name="sky_moderate_smog">Moderate smog</string>
+    <string name="sky_heavy_smog">Heavy smog</string>
+    <string name="sky_fog">Fog</string>
+    <string name="sky_dust">Dust</string>
+    <string name="sky_sand">Sand</string>
+
+<!-- 空气质量等级说明 -->
+    <string name="airQuality_excellent">Excellent</string>
+    <string name="airQuality_good">Good</string>
+    <string name="airQuality_mild">Mild</string>
+    <string name="airQuality_moderate">Moderate</string>
+    <string name="airQuality_severe">Severe</string>
+    <string name="airQuality_serious">Serious</string>
+
+<!-- 生活指数 -->
+    <string name="airQuality_null">No Data</string>
+    <string name="life_car_wash">CarWash</string>
+    <string name="life_dressing">Dressing</string>
+    <string name="life_ultraviolet">Ultraviolet</string>
+    <string name="life_travel">Travel</string>
+    <string name="life_cold">Cold</string>
+    <string name="life_sports">Sports</string>
+
+</resources>

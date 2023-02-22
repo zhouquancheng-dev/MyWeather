@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">我的天气</string>
+    <string name="permission_title">权限设置</string>
+    <string name="permission_content">天气需要获取您当前所在位置才能显示天气信息</string>
+    <string name="permission_location_button">使用定位需要您允许定位权限</string>
+    <string name="permission_sure">前往设置</string>
+    <string name="permission_cancel">取消</string>
+    <string name="to_daily_page_button">查看近15日天气</string>
+    <string name="hourly_text">24小时天气预报</string>
+    <string name="current_time_text">现在</string>
+
+    <string name="eg_cai_yun">气象数据均来自彩云天气</string>
+
+    <string name="cancel_text_button">取消</string>
+    <string name="locate_text">定位</string>
+    <string name="hot_city_text">热门城市</string>
+    <string name="city_manage_text">城市管理</string>
+    <string name="search_hint_text">搜索全球城市</string>
+    <string name="add_city_text">添加到主页</string>
+</resources>

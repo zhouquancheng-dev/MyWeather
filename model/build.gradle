@@ -1,0 +1,75 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.zqc.model'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        resConfigs 'en', 'fr', 'zh', 'zh-rCN', 'zh-rHK', 'zh-rTW'
+
+        // 去除多语言
+
+        /**
+         * Room 配置编译器选项
+         * room.schemaLocation：配置并启用将数据库架构导出到给定目录中的 JSON 文件的功能。
+         * room.incremental：启用 Gradle 增量注解处理器。
+         * room.expandProjection：配置 Room 以重写查询，使其顶部星形投影在展开后仅包含 DAO 方法返回类型中定义的列
+         */
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'com.google.android.material:material:1.5.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //Retrofit2  https://github.com/square/retrofit
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    //Room https://developer.android.google.cn/jetpack/androidx/releases/room?hl=zh-cn#groovy
+    //RoomDatabase它是公共 API 的一部分，因为 AppDatabase 扩展了它并且可能在下游依赖项中使用了该类，
+    //但是 RoomDatabase 被声明为仅实现依赖项，这意味着该类在编译期间通常不可用于下游依赖项。
+    def room_version = "2.5.0"
+    api "androidx.room:room-runtime:$room_version"  //将 implementation 改为 api，使其成为公共API的一部分，解决无法访问超类型，模块缺少或冲突的依赖项
+//    annotationProcessor "androidx.room:room-compiler:$room_version"
+    //Room ktx扩展程序增加了对数据库事务的协程支持
+    implementation "androidx.room:room-ktx:$room_version"
+    //使用Kotlin注解处理工具（kapt）
+    kapt "androidx.room:room-compiler:$room_version"
+}

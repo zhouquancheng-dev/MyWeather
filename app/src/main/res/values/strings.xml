@@ -7,7 +7,6 @@
     <string name="permission_cancel">Cancel</string>
     <string name="to_daily_page_button">Check the weather for the last 15 days</string>
     <string name="hourly_text">24-hour weather forecast</string>
-    <string name="current_time_text">current</string>
 
     <string name="eg_cai_yun">Meteorological data are all from Caiyun Weather</string>
 
@@ -17,4 +16,16 @@
     <string name="city_manage_text">CityManage</string>
     <string name="search_hint_text">Search global cities</string>
     <string name="add_city_text">add to homepage</string>
+
+    <string name="to_text">to</string>
+    <string name="degrees_celsius_text">degrees Celsius</string>
+    <string name="current_hour_time_text">current</string>
+
+    <string name="sun_rise_text">SunRise</string>
+    <string name="sun_set_text">SunRise</string>
+
+    <string name="air_text">air</string>
+    <string name="humidity_text">Humidity</string>
+    <string name="apparent_temperature_text">Apparent Temperature</string>
+    <string name="pressure_text">Pressure_text</string>
 </resources>

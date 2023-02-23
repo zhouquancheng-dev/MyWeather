@@ -8,7 +8,6 @@
     <string name="permission_cancel">取消</string>
     <string name="to_daily_page_button">查看近15日天气</string>
     <string name="hourly_text">24小时天气预报</string>
-    <string name="current_time_text">现在</string>
 
     <string name="eg_cai_yun">气象数据均来自彩云天气</string>
 
@@ -18,4 +17,16 @@
     <string name="city_manage_text">城市管理</string>
     <string name="search_hint_text">搜索全球城市</string>
     <string name="add_city_text">添加到主页</string>
+
+    <string name="to_text">转</string>
+    <string name="degrees_celsius_text">℃</string>
+    <string name="current_hour_time_text">现在</string>
+
+    <string name="sun_rise_text">日出</string>
+    <string name="sun_set_text">日落</string>
+
+    <string name="air_text">空气</string>
+    <string name="humidity_text">湿度</string>
+    <string name="apparent_temperature_text">体感温度</string>
+    <string name="pressure_text">气压</string>
 </resources>

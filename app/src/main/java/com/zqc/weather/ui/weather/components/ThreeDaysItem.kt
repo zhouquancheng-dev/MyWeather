@@ -33,8 +33,8 @@ fun LazyListScope.threeDaysItem(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(280.dp)
-                    .padding(horizontal = 15.dp, vertical = 8.dp),
+                    .height(260.dp)
+                    .padding(horizontal = 15.dp),
                 shape = RoundedCornerShape(20.dp)
             ) {
                 Column {
@@ -127,7 +127,7 @@ private fun Sky(
                     fontSize = 16.sp, maxLines = 2
                 )
                 if (getSky(skyCon08h20h.value).info != getSky(sky.skyCon20h32h[index].value).info) {
-                    Text(text = "转")
+                    Text(text = stringResource(id = R.string.to_text))
                     Text(
                         text = stringResource(getSky(sky.skyCon20h32h[index].value).info),
                         fontSize = 16.sp, maxLines = 2

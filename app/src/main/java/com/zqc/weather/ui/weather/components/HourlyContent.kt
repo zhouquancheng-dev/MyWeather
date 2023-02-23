@@ -33,7 +33,7 @@ fun LazyListScope.hourlyItem(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 25.dp, horizontal = 15.dp),
+                    .padding(vertical = 20.dp, horizontal = 15.dp),
                 shape = RoundedCornerShape(20.dp)
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
@@ -73,7 +73,6 @@ private fun HourlyContent(
     currentDate: Date
 ) {
     Column(
-        modifier = Modifier.height(210.dp),
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -153,7 +152,7 @@ private fun HourlyContent(
                 Column(modifier = Modifier.width(64.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = if (index == 1)
-                            stringResource(R.string.current_time_text) else
+                            stringResource(R.string.current_hour_time_text) else
                                 getHourly(temperature.datetime),
                         fontSize = 14.sp
                     )

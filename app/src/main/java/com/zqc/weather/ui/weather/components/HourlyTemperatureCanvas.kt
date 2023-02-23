@@ -207,10 +207,12 @@ fun HourlyTemperatureCurveCanvas(
                     strokeWidth = 3f,
                     pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 5f), 1f)
                 )
-                drawCircle(
+                drawPoints(
+                    points = arrayListOf(Offset(centreX, currentTepOffsetY)),
+                    pointMode = PointMode.Points,
                     color = Color.Gray,
-                    radius = 3f.dp.toPx(),
-                    center = Offset(centreX, currentTepOffsetY)
+                    strokeWidth = 5f.dp.toPx(),
+                    cap = StrokeCap.Round
                 )
             }
 

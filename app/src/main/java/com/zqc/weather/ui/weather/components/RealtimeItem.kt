@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zqc.model.weather.RealtimeResponse
 import com.zqc.mdoel.weather.getSky
+import com.zqc.weather.R
 
 fun LazyListScope.realtimeItem(
     realtime: RealtimeResponse.Realtime
@@ -32,7 +33,7 @@ fun LazyListScope.realtimeItem(
                     color = Color.White
                 )
                 Text(
-                    text = "℃",
+                    text = stringResource(id = R.string.degrees_celsius_text),
                     fontSize = 28.sp,
                     modifier = Modifier
                         .align(Alignment.Top)

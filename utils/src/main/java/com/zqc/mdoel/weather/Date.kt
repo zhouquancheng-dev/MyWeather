@@ -1,10 +1,14 @@
 package com.zqc.mdoel.weather
 
+import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
- * 星期几
+ * 判断日期时间为并显示为 M月d日 格式
+ * @param time 格式 Date类型
  */
 fun getWeek(time: Date?): String {
     time?.let {
@@ -15,8 +19,9 @@ fun getWeek(time: Date?): String {
 }
 
 /**
- * 根据传入的日期判断为：
- * 昨天、今天、明天；否则为周日、周一、周二、周三、周四、周五、周六
+ * 根据传入的日期时间判断为：
+ *  昨天、今天、明天；否则为周日、周一、周二、周三、周四、周五、周六
+ * @param time 格式 Date类型
  */
 fun getDayOrWeek(time: Date?): String {
     val day = 24 * 60 * 60 * 1000L
@@ -40,7 +45,8 @@ fun getDayOrWeek(time: Date?): String {
 }
 
 /**
- * 小时 HH:mm
+ * 判断日期时间为并显示为 HH:mm 格式
+ * @param time 格式 Date类型
  */
 fun getHourly(time: Date?): String {
     val day = 24 * 60 * 60 * 1000L
@@ -65,4 +71,28 @@ fun getHourly(time: Date?): String {
         }
     }
     return ""
+}
+
+/**
+ * 判断当前时间[System.currentTimeMillis]是否小于指定的时间（在指定时间之前）
+ * @param time 传入指定时间字符串 必须如格式：”HH::mm:ss“
+ * @return 当前时间在指定时间[time]之前(小于)返回 true 否则返回 false
+ */
+@SuppressLint("NewApi")
+fun timeCompareBefore(time: String): Boolean {
+    val df = DateTimeFormatter.ofPattern("HH:mm")
+    val localTime = LocalTime.parse(time, df)
+    return LocalTime.now().isBefore(localTime)
+}
+
+/**
+ * 判断当前时间[System.currentTimeMillis]是否大于指定的时间（在指定时间之后）
+ * @param time 传入指定时间字符串 必须如格式：”HH::mm:ss“
+ * @return 当前时间在指定时间[time]之后(大于)返回 true 否则返回 false
+ */
+@SuppressLint("NewApi")
+fun timeCompareAfter(time: String): Boolean {
+    val df = DateTimeFormatter.ofPattern("HH:mm")
+    val localTime = LocalTime.parse(time, df)
+    return LocalTime.now().isAfter(localTime)
 }

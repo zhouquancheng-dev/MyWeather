@@ -42,4 +42,16 @@
     <string name="life_cold">感冒</string>
     <string name="life_sports">运动</string>
 
+<!-- 气象说明 PopupMenu Title text -->
+    <string name="weather_description_wind_title">关于风向风速</string>
+    <string name="weather_description_humidity_title">关于湿度</string>
+    <string name="weather_description_apparent_temperature_title">关于体感温度</string>
+    <string name="weather_description_pressure_title">关于气压</string>
+
+<!-- 气象说明 PopupMenu Content text -->
+    <string name="weather_description_wind_info">风是地球大气运动的一种形式，它是一个矢量。风在单位时间里移动的距离称为风速，单位是米/秒或者公里/小时；移来的方向称为风向。</string>
+    <string name="weather_description_humidity_info">空气的干湿程度，或表示含有的水蒸气多少的物理量，称为湿度。单位体积的空气中含有的水蒸气的质量叫作绝对湿度，某一温度时空气的绝对湿度和同温度下饱和气压的百分比叫作相对湿度。</string>
+    <string name="weather_description_apparent_temperature_info">体感温度，是温度这个大家庭的一员，是指每个人和外界接触感受的温度，多方面因素都会对体感温度产生影响，比如湿度、风、个人穿着、日照等。</string>
+    <string name="weather_description_pressure_info">气压是大气压强的简称，是作用在单位面积上的大气压力，即等于单位面积上向上延伸到大气上界的垂直空气柱的重量。气压大小与高度、温度等条件有关。一般随高度增大而减小。气象学中，一般用千帕（kPa）、或使用百帕（hpa）作为单位。</string>
+
 </resources>

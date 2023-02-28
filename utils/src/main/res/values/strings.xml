@@ -42,4 +42,16 @@
     <string name="life_cold">Cold</string>
     <string name="life_sports">Sports</string>
 
+<!-- 气象说明 PopupMenu Title text -->
+    <string name="weather_description_wind_title">About wind direction and speed</string>
+    <string name="weather_description_humidity_title">About humidity</string>
+    <string name="weather_description_apparent_temperature_title">About Apparent temperature</string>
+    <string name="weather_description_pressure_title">About Air pressure</string>
+
+<!-- 气象说明 PopupMenu Content text -->
+    <string name="weather_description_wind_info">Wind is a form of motion in the Earth\'s atmosphere and it is a vector. The distance that the wind moves in unit time is called the wind speed, and the unit is m/s or km/h; the moving direction is called the wind direction.</string>
+    <string name="weather_description_humidity_info">The degree of dryness and humidity of the air, or the physical quantity indicating how much water vapor it contains, is called humidity. The mass of water vapor contained in a unit volume of air is called absolute humidity, and the percentage of the absolute humidity of the air at a certain temperature and the saturated pressure at the same temperature is called relative humidity.</string>
+    <string name="weather_description_apparent_temperature_info">Somatosensory temperature is a member of the big family of temperature. It refers to the temperature that everyone feels in contact with the outside world. Many factors will affect the somatosensory temperature, such as humidity, wind, personal clothing, sunshine, etc.</string>
+    <string name="weather_description_pressure_info">Air pressure is the abbreviation of atmospheric pressure, which is the atmospheric pressure acting on a unit area, which is equal to the weight of a vertical air column extending upward to the upper boundary of the atmosphere per unit area. Air pressure is related to altitude, temperature and other conditions. Generally decreases with increasing height. In meteorology, kilopascals (kPa) or hectopascals (hpa) are generally used as units.</string>
+
 </resources>

@@ -13,8 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zqc.mdoel.popupWindow.ShowDropdownMenu
-import com.zqc.mdoel.view.AdaptationScreenHeight
-import com.zqc.mdoel.view.AdaptationScreenWidth
 import com.zqc.mdoel.view.noRippleClickable
 import com.zqc.model.weather.DailyResponse
 import com.zqc.model.weather.RealtimeResponse
@@ -27,34 +25,33 @@ fun LazyListScope.otherInfoItem(
     other: Weather
 ) {
     item(contentType = { other }) {
-        AdaptationScreenWidth {
-            Row {
-                Card(
-                    modifier = Modifier
-                        .height(160.dp)
-                        .weight(1f)
-                        .padding(start = 15.dp, end = 2.5.dp),
-                    shape = RoundedCornerShape(20.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        SunRiseSetContent(sun = other.daily.astro[0])
-                        AdaptationScreenHeight {
-                            SunRiseSetCurveCanvas(
-                                sun = other.daily.astro[0],
-                                modifier = Modifier.align(Alignment.Top)
-                            )
-                        }
-                    }
+        Row {
+            Card(
+                modifier = Modifier
+                    .height(160.dp)
+                    .weight(1f)
+                    .padding(start = 15.dp, end = 2.5.dp),
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Box {
+                    SunRiseSetContent(
+                        sun = other.daily.astro[0],
+                        modifier = Modifier.padding(8.dp).align(Alignment.TopStart)
+                    )
+                    SunRiseSetCurveCanvas(
+                        sun = other.daily.astro[0],
+                        modifier = Modifier.align(Alignment.TopCenter)
+                    )
                 }
-                Card(
-                    modifier = Modifier
-                        .height(160.dp)
-                        .weight(1f)
-                        .padding(start = 2.5.dp, end = 15.dp),
-                    shape = RoundedCornerShape(20.dp)
-                ) {
-                    ApparentContent(temp = other.realtime)
-                }
+            }
+            Card(
+                modifier = Modifier
+                    .height(160.dp)
+                    .weight(1f)
+                    .padding(start = 2.5.dp, end = 15.dp),
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                ApparentContent(temp = other.realtime)
             }
         }
     }
@@ -74,13 +71,12 @@ private fun SunRiseSetContent(
                 painter = painterResource(id = R.drawable.ic_sun_rise),
                 contentDescription = null
             )
-            Spacer(modifier = Modifier.width(2.dp))
+            Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = "${stringResource(com.zqc.weather.R.string.sun_rise_text)} ${sun.sunrise.time}",
                 fontSize = 14.sp
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 modifier = Modifier
@@ -89,7 +85,7 @@ private fun SunRiseSetContent(
                 painter = painterResource(id = R.drawable.ic_sun_set),
                 contentDescription = null
             )
-            Spacer(modifier = Modifier.width(2.dp))
+            Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = "${stringResource(com.zqc.weather.R.string.sun_set_text)} ${sun.sunset.time}",
                 fontSize = 14.sp

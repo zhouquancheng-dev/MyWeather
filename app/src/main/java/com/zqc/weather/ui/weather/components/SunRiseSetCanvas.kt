@@ -36,23 +36,23 @@ fun SunRiseSetCurveCanvas(
     Box(modifier = modifier) {
         Canvas(
             modifier = Modifier
-                .width(100.dp)
-                .height(100.dp)
-                .padding(start = 10.dp, end = 20.dp, top = 10.dp, bottom = 10.dp)
+                .width(90.dp)
+                .height(90.dp)
+                .padding(bottom = 20.dp)
         ) {
             val startX =
-                (1.0 - 0.1).pow(2.0) * (0f - 30) + 2 * 0.1 * (1 - 0.1) * (size.width / 2) + 0.1
-                    .pow(2.0) * (size.width + 30)
+                (1.0 - 0.1).pow(2.0) * (0f - 30.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (size.width / 2) + 0.1
+                    .pow(2.0) * (size.width + 30.dp.toPx())
             val startY =
-                (1.0 - 0.1).pow(2.0) * (size.height + 80) + 2 * 0.1 * (1 - 0.1) * (-size.height + 50) + 0.1
-                    .pow(2.0) * (size.height + 80)
+                (1.0 - 0.1).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (-size.height + 50.dp.toPx()) + 0.1
+                    .pow(2.0) * (size.height + 80.dp.toPx())
 
             val endX =
-                (1.0 - 0.9).pow(2.0) * (0f - 30) + 2 * 0.9 * (1 - 0.9) * (size.width / 2) + 0.9
-                    .pow(2.0) * (size.width + 30)
+                (1.0 - 0.9).pow(2.0) * (0f - 30.dp.toPx()) + 2 * 0.9 * (1 - 0.9) * (size.width / 2) + 0.9
+                    .pow(2.0) * (size.width + 30.dp.toPx())
             val endY =
-                (1.0 - 0.9).pow(2.0) * (size.height + 80) + 2 * 0.9 * (1 - 0.9) * (-size.height + 50) + 0.9
-                    .pow(2.0) * (size.height + 80)
+                (1.0 - 0.9).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * 0.9 * (1 - 0.9) * (-size.height + 50.dp.toPx()) + 0.9
+                    .pow(2.0) * (size.height + 80.dp.toPx())
 
             // 解构当前时间分钟数位置
             val (sunIconX, sunIconY) = bezierPointPair(result.toDouble(), sun.sunrise.time, sun.sunset.time)
@@ -68,13 +68,13 @@ fun SunRiseSetCurveCanvas(
             // 创建白天太阳升起路径
             val dayPath = Path()
             // 起始点
-            dayPath.moveTo(0f - 30, size.height + 80)
+            dayPath.moveTo(0f - 30.dp.toPx(), size.height + 80.dp.toPx())
             // 创建二阶贝塞尔曲线路径
             dayPath.quadraticBezierTo(
                 x1 = size.width / 2,
-                y1 = -size.height + 50,
-                x2 = size.width + 30,
-                y2 = size.height + 80
+                y1 = -size.height + 50.dp.toPx(),
+                x2 = size.width + 30.dp.toPx(),
+                y2 = size.height + 80.dp.toPx()
             )
             // 绘制二阶贝塞尔曲线路径
             drawPath(
@@ -87,7 +87,7 @@ fun SunRiseSetCurveCanvas(
             // 绘制地平线
             drawLine(
                 color = Color.LightGray,
-                start = Offset(startX.toFloat() - 80, startY.toFloat()),
+                start = Offset(startX.toFloat() - 55, startY.toFloat()),
                 end = Offset(endX.toFloat() + 55, endY.toFloat()),
                 strokeWidth = 0.5f.dp.toPx(),
                 pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 5f), 1f)
@@ -130,41 +130,54 @@ private fun DrawScope.bezierPointPair(
     if (timeCompareBefore(sunRise)) {
         // 日出之前的路径
         val endX =
-            (1.0 - 0.1).pow(2.0) * (0f - 30) + 2 * 0.1 * (1 - 0.1) * (size.width / 2) + 0.1
-                .pow(2.0) * (size.width + 80)
+            (1.0 - 0.1).pow(2.0) * (0f - 30.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (size.width / 2) + 0.1
+                .pow(2.0) * (size.width + 80.dp.toPx())
         val endY =
-            (1.0 - 0.1).pow(2.0) * (size.height + 80) + 2 * 0.1 * (1 - 0.1) * (-size.height + 50) + 0.1
-                .pow(2.0) * (size.height + 80)
+            (1.0 - 0.1).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (-size.height + 50.dp.toPx()) + 0.1
+                .pow(2.0) * (size.height + 80.dp.toPx())
         val x =
-            (1.0 - sunResult).pow(2.0) * (0f - 30) + 2 * sunResult * (1 - sunResult) * (0f - 30) + sunResult
+            (1.0 - sunResult).pow(2.0) * (0f - 30.dp.toPx()) + 2 * sunResult * (1 - sunResult) * (0f - 30.dp.toPx()) + sunResult
                 .pow(2.0) * endX
         val y =
-            (1.0 - sunResult).pow(2.0) * (size.height + 80) + 2 * sunResult * (1 - sunResult) * (size.height + 80) + sunResult
+            (1.0 - sunResult).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * sunResult * (1 - sunResult) * (size.height + 80.dp.toPx()) + sunResult
                 .pow(2.0) * endY
         return Pair(x, y)
     } else if (timeCompareAfter(sunSet)) {
         // 日落之后的路径
         val endX =
-            (1.0 - 0.9).pow(2.0) * (0f - 30) + 2 * 0.9 * (1 - 0.9) * (size.width / 2) + 0.9
-                .pow(2.0) * (size.width + 30)
+            (1.0 - 0.9).pow(2.0) * (0f - 30.dp.toPx()) + 2 * 0.9 * (1 - 0.9) * (size.width / 2) + 0.9
+                .pow(2.0) * (size.width + 30.dp.toPx())
         val endY =
-            (1.0 - 0.9).pow(2.0) * (size.height + 80) + 2 * 0.9 * (1 - 0.9) * (-size.height + 50) + 0.9
-                .pow(2.0) * (size.height + 80)
+            (1.0 - 0.9).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * 0.9 * (1 - 0.9) * (-size.height + 50.dp.toPx()) + 0.9
+                .pow(2.0) * (size.height + 80.dp.toPx())
         val x =
-            (1.0 - sunResult).pow(2.0) * endX + 2 * sunResult * (1 - sunResult) * (size.width + 30) + sunResult
-                .pow(2.0) * (size.width + 30)
+            (1.0 - sunResult).pow(2.0) * endX + 2 * sunResult * (1 - sunResult) * (size.width + 30.dp.toPx()) + sunResult
+                .pow(2.0) * (size.width + 30.dp.toPx())
         val y =
-            (1.0 - sunResult).pow(2.0) * endY + 2 * sunResult * (1 - sunResult) * (size.height + 80) + sunResult
-                .pow(2.0) * (size.height + 80)
+            (1.0 - sunResult).pow(2.0) * endY + 2 * sunResult * (1 - sunResult) * (size.height + 80.dp.toPx()) + sunResult
+                .pow(2.0) * (size.height + 80.dp.toPx())
         return Pair(x, y)
     } else {
+        val startX =
+            (1.0 - 0.1).pow(2.0) * (0f - 30.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (size.width / 2) + 0.1
+                .pow(2.0) * (size.width + 30.dp.toPx())
+        val startY =
+            (1.0 - 0.1).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (-size.height + 50.dp.toPx()) + 0.1
+                .pow(2.0) * (size.height + 80.dp.toPx())
+
+        val endX =
+            (1.0 - 0.9).pow(2.0) * (0f - 30.dp.toPx()) + 2 * 0.9 * (1 - 0.9) * (size.width / 2) + 0.9
+                .pow(2.0) * (size.width + 30.dp.toPx())
+        val endY =
+            (1.0 - 0.9).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * 0.9 * (1 - 0.9) * (-size.height + 50.dp.toPx()) + 0.9
+                .pow(2.0) * (size.height + 80.dp.toPx())
         // 白天太阳升起的路径
         val x =
-            (1.0 - sunResult).pow(2.0) * (0f - 30) + 2 * sunResult * (1 - sunResult) * (size.width / 2) + sunResult
-                .pow(2.0) * (size.width + 30)
+            (1.0 - sunResult).pow(2.0) * startX + 2 * sunResult * (1 - sunResult) * (size.width / 2) + sunResult
+                .pow(2.0) * endX
         val y =
-            (1.0 - sunResult).pow(2.0) * (size.height + 80) + 2 * sunResult * (1 - sunResult) * (-size.height + 50) + sunResult
-                .pow(2.0) * (size.height + 80)
+            (1.0 - sunResult).pow(2.0) * startY + 2 * sunResult * (1 - sunResult) * (-size.height + 80.dp.toPx()) + sunResult
+                .pow(2.0) * endY
         return Pair(x, y)
     }
 }
@@ -192,7 +205,13 @@ private fun getAccounted(sunrise: String?, sunset: String?): Float {
     } else if (timeCompareAfter(sunset)) {
         endAccount
     } else {
-        account
+        if (account > 1f) {
+            1f
+        } else if (account < 0f) {
+            0f
+        } else {
+            account
+        }
     }
     return result
 }

@@ -63,6 +63,7 @@ private fun CityListPage(
     ) {
         itemsIndexed(
             items = cityInfoList,
+            key = { _, item -> item.address },
             contentType = { _, item -> item.address }
         ) {index, citiInfo ->
             CityListItem(

@@ -1,22 +1,24 @@
 package com.zqc.weather.ui.weather.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.zqc.mdoel.view.isDarkMode
 import com.zqc.model.weather.HourlyResponse
 import com.zqc.mdoel.weather.getAqiInfo
 import java.util.*
@@ -35,9 +37,22 @@ fun HourlyTemperatureCurveCanvas(
     indexTep: Int,
     hourlyAqi: List<HourlyResponse.Hourly.AirQuality.AQI>
 ) {
+    val context = LocalContext.current
     //深色模式返回 true 浅色false
-    val isDark = isSystemInDarkTheme()
+    val isDark = context.isDarkMode()
     val textMeasure = rememberTextMeasurer(cacheSize = 8)
+    // 找出24小时中的最高和最低温度值
+    var maxTep = hourlyTemperature[0].value
+    var minTep = hourlyTemperature[0].value
+    for (index in hourlyTemperature.indices) {
+        if (maxTep < hourlyTemperature[index].value) {
+            maxTep = hourlyTemperature[index].value
+        }
+        if (minTep > hourlyTemperature[index].value) {
+            minTep = hourlyTemperature[index].value
+        }
+    }
+    val temperature = remember { Pair(maxTep, minTep) }
     Canvas(
         modifier = Modifier
             .width(64.dp)
@@ -53,24 +68,12 @@ fun HourlyTemperatureCurveCanvas(
             canvas.translate(0f, -size.height)
             canvas.save()
 
-            // 找出24小时中的最高和最低温度值
-            var maxTep = hourlyTemperature[0].value
-            var minTep = hourlyTemperature[0].value
-            for (index in hourlyTemperature.indices) {
-                if (maxTep < hourlyTemperature[index].value) {
-                    maxTep = hourlyTemperature[index].value
-                }
-                if (minTep > hourlyTemperature[index].value) {
-                    minTep = hourlyTemperature[index].value
-                }
-            }
-
             // x 轴中心
             val centreX = (size.width / 2)
             // 每度温度所占的高度
-            val yAxisInterval = (size.height / (maxTep - minTep))
+            val yAxisInterval = (size.height / (temperature.first - temperature.second))
             // 当前温度所在的 y 轴位置
-            val currentTepOffsetY = yAxisInterval * (currentTep - minTep)
+            val currentTepOffsetY = yAxisInterval * (currentTep - temperature.second)
 
             // 前后温度的中间温度值集合
             val tepCentreList = mutableListOf<Float>()
@@ -115,7 +118,7 @@ fun HourlyTemperatureCurveCanvas(
                         x1 = centreX + offsetX,
                         y1 = currentTepOffsetY + offsetY,
                         x2 = size.width,
-                        y2 = yAxisInterval * (tepCentreList.first() - minTep)
+                        y2 = yAxisInterval * (tepCentreList.first() - temperature.second)
                     )
                 } else if (currentTep < hourlyTemperature[1].value.toInt()) {
                     linePath.moveTo(centreX, currentTepOffsetY)
@@ -123,16 +126,16 @@ fun HourlyTemperatureCurveCanvas(
                         x1 = centreX + offsetX,
                         y1 = currentTepOffsetY - offsetY,
                         x2 = size.width,
-                        y2 = yAxisInterval * (tepCentreList.first() - minTep)
+                        y2 = yAxisInterval * (tepCentreList.first() - temperature.second)
                     )
                 } else if (currentTep == hourlyTemperature[1].value.toInt()) {
                     linePath.moveTo(centreX, currentTepOffsetY)
-                    linePath.lineTo(size.width, yAxisInterval * (tepCentreList.first() - minTep))
+                    linePath.lineTo(size.width, yAxisInterval * (tepCentreList.first() - temperature.second))
                 }
             } else if (indexTep > 0 && indexTep < hourlyTemperature.size - 1) {
                 // 左边曲线
                 if (hourlyTemperature[indexTep - 1].value.toInt() > currentTep) {
-                    linePath.moveTo(0f, yAxisInterval * (tepCentreList[indexTep - 1] - minTep))
+                    linePath.moveTo(0f, yAxisInterval * (tepCentreList[indexTep - 1] - temperature.second))
                     linePath.quadraticBezierTo(
                         x1 = centreX - offsetX,
                         y1 = currentTepOffsetY - offsetY,
@@ -140,7 +143,7 @@ fun HourlyTemperatureCurveCanvas(
                         y2 = currentTepOffsetY
                     )
                 } else if (hourlyTemperature[indexTep - 1].value.toInt() < currentTep) {
-                    linePath.moveTo(0f, yAxisInterval * (tepCentreList[indexTep - 1] - minTep))
+                    linePath.moveTo(0f, yAxisInterval * (tepCentreList[indexTep - 1] - temperature.second))
                     linePath.quadraticBezierTo(
                         x1 = centreX - offsetX,
                         y1 = currentTepOffsetY + offsetY,
@@ -148,7 +151,7 @@ fun HourlyTemperatureCurveCanvas(
                         y2 = currentTepOffsetY
                     )
                 } else if (hourlyTemperature[indexTep - 1].value.toInt() == currentTep) {
-                    linePath.moveTo(0f, yAxisInterval * (tepCentreList[indexTep - 1] - minTep))
+                    linePath.moveTo(0f, yAxisInterval * (tepCentreList[indexTep - 1] - temperature.second))
                     linePath.lineTo(centreX, currentTepOffsetY)
                 }
                 // 右边曲线
@@ -158,7 +161,7 @@ fun HourlyTemperatureCurveCanvas(
                         x1 = centreX + offsetX,
                         y1 = currentTepOffsetY + offsetY,
                         x2 = size.width,
-                        y2 = yAxisInterval * (tepCentreList[indexTep] - minTep)
+                        y2 = yAxisInterval * (tepCentreList[indexTep] - temperature.second)
                     )
                 } else if (currentTep < hourlyTemperature[indexTep + 1].value.toInt()) {
                     linePath.moveTo(centreX, currentTepOffsetY)
@@ -166,15 +169,15 @@ fun HourlyTemperatureCurveCanvas(
                         x1 = centreX + offsetX,
                         y1 = currentTepOffsetY - offsetY,
                         x2 = size.width,
-                        y2 = yAxisInterval * (tepCentreList[indexTep] - minTep)
+                        y2 = yAxisInterval * (tepCentreList[indexTep] - temperature.second)
                     )
                 } else if (currentTep == hourlyTemperature[indexTep + 1].value.toInt()) {
                     linePath.moveTo(centreX, currentTepOffsetY)
-                    linePath.lineTo(size.width, yAxisInterval * (tepCentreList[indexTep] - minTep))
+                    linePath.lineTo(size.width, yAxisInterval * (tepCentreList[indexTep] - temperature.second))
                 }
             } else if (indexTep == hourlyTemperature.size - 1) {
                 if (hourlyTemperature[indexTep - 1].value.toInt() > currentTep) {
-                    linePath.moveTo(0f, yAxisInterval * (tepCentreList.last() - minTep))
+                    linePath.moveTo(0f, yAxisInterval * (tepCentreList.last() - temperature.second))
                     linePath.quadraticBezierTo(
                         x1 = centreX - offsetX,
                         y1 = currentTepOffsetY - offsetY,
@@ -182,7 +185,7 @@ fun HourlyTemperatureCurveCanvas(
                         y2 = currentTepOffsetY
                     )
                 } else if (hourlyTemperature[indexTep - 1].value.toInt() < currentTep) {
-                    linePath.moveTo(0f, yAxisInterval * (tepCentreList.last() - minTep))
+                    linePath.moveTo(0f, yAxisInterval * (tepCentreList.last() - temperature.second))
                     linePath.quadraticBezierTo(
                         x1 = centreX - offsetX,
                         y1 = currentTepOffsetY + offsetY,
@@ -190,7 +193,7 @@ fun HourlyTemperatureCurveCanvas(
                         y2 = currentTepOffsetY
                     )
                 } else if (hourlyTemperature[indexTep - 1].value.toInt() == currentTep) {
-                    linePath.moveTo(0f, yAxisInterval * (tepCentreList.last() - minTep))
+                    linePath.moveTo(0f, yAxisInterval * (tepCentreList.last() - temperature.second))
                     linePath.lineTo(centreX, currentTepOffsetY)
                 }
             }
@@ -227,7 +230,7 @@ fun HourlyTemperatureCurveCanvas(
                 textLayoutResult = textLayoutResult,
                 topLeft = Offset(
                     x = centreX - (textLayoutResult.size.width / 2),
-                    y = -yAxisInterval * (currentTep - minTep) - (textLayoutResult.size.height * 1.5f)
+                    y = -yAxisInterval * (currentTep - temperature.second) - (textLayoutResult.size.height * 1.5f)
                 )
             )
             canvas.restore()

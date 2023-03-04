@@ -29,6 +29,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.zqc.mdoel.view.BarsLightDarkTheme
+import com.zqc.mdoel.view.isDarkMode
 import com.zqc.weather.permission.LocationDiaLog
 import com.zqc.weather.ui.city.CityManagePage
 import com.zqc.weather.ui.city.viewmodel.CityViewModel
@@ -83,7 +84,8 @@ fun AppNavGraph(
             popExitTransition = { fadeOut(spring(stiffness = Spring.StiffnessLow)) + slideOutHorizontally(targetOffsetX = { it }) }
         ) {
             composable(WeatherDestinations.HomePage.route) { backStackEntry ->
-                BarsLightDarkTheme(isSystemInDarkTheme())
+                val context = LocalContext.current
+                BarsLightDarkTheme(context.isDarkMode())
                 val backSelect: Int by backStackEntry.savedStateHandle.getStateFlow("select_page", -1).collectAsStateWithLifecycle()
                 val weatherViewModel = hiltViewModel<WeatherViewModel>()
                 WeatherViewPager(

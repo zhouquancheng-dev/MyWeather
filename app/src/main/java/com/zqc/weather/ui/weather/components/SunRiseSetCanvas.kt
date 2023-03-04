@@ -133,13 +133,13 @@ private fun DrawScope.bezierPointPair(
             (1.0 - 0.1).pow(2.0) * (0f - 30.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (size.width / 2) + 0.1
                 .pow(2.0) * (size.width + 80.dp.toPx())
         val endY =
-            (1.0 - 0.1).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (-size.height + 50.dp.toPx()) + 0.1
+            (1.0 - 0.1).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * 0.1 * (1 - 0.1) * (-size.height + 30.dp.toPx()) + 0.1
                 .pow(2.0) * (size.height + 80.dp.toPx())
         val x =
-            (1.0 - sunResult).pow(2.0) * (0f - 30.dp.toPx()) + 2 * sunResult * (1 - sunResult) * (0f - 30.dp.toPx()) + sunResult
+            (1.0 - sunResult).pow(2.0) * (0f - 30.dp.toPx()) + 2 * sunResult * (1 - sunResult) * endX + sunResult
                 .pow(2.0) * endX
         val y =
-            (1.0 - sunResult).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * sunResult * (1 - sunResult) * (size.height + 80.dp.toPx()) + sunResult
+            (1.0 - sunResult).pow(2.0) * (size.height + 80.dp.toPx()) + 2 * sunResult * (1 - sunResult) * endY + sunResult
                 .pow(2.0) * endY
         return Pair(x, y)
     } else if (timeCompareAfter(sunSet)) {

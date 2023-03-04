@@ -15,6 +15,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.zqc.mdoel.view.AdaptationScreenHeight
 import com.zqc.mdoel.view.BarsLightDarkTheme
+import com.zqc.mdoel.view.GrayAppAdapter
 import com.zqc.weather.ui.theme.MyWeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
@@ -35,12 +36,14 @@ class MainActivity : BaseActivity() {
             BarsLightDarkTheme()
             AdaptationScreenHeight {
                 MyWeatherTheme {
-                    // A surface container using the 'background' color from the theme
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colors.background
-                    ) {
-                        WeatherApplication()
+                    GrayAppAdapter {
+                        // A surface container using the 'background' color from the theme
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colors.background
+                        ) {
+                            WeatherApplication()
+                        }
                     }
                 }
             }

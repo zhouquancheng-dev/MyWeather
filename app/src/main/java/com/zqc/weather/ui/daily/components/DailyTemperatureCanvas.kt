@@ -1,13 +1,13 @@
 package com.zqc.weather.ui.daily.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -15,11 +15,13 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.zqc.mdoel.view.isDarkMode
 import com.zqc.model.weather.DailyResponse
 import com.zqc.weather.ui.theme.BrokenLineColor
 import com.zqc.weather.ui.theme.MyWeatherTheme
@@ -40,9 +42,22 @@ fun DailyTemperatureBrokenLineCanvas(
     nightCurrentTep: Int,
     indexTep: Int,
 ) {
+    val context = LocalContext.current
     //深色模式返回 true 浅色false
-    val isDark = isSystemInDarkTheme()
+    val isDark = context.isDarkMode()
     val textMeasure = rememberTextMeasurer(cacheSize = 8)
+    //找出15天中每天中的最高温度和最低温度
+    var maxTep = dailyTemperature[0].max
+    var minTep = dailyTemperature[0].min
+    for (index in dailyTemperature.indices) {
+        if (maxTep < dailyTemperature[index].max) {
+            maxTep = dailyTemperature[index].max
+        }
+        if (minTep > dailyTemperature[index].min) {
+            minTep = dailyTemperature[index].min
+        }
+    }
+    val temperature = remember { Pair(maxTep, minTep) }
     Canvas(
         modifier = Modifier
             .width(80.dp)
@@ -58,31 +73,19 @@ fun DailyTemperatureBrokenLineCanvas(
             canvas.translate(0f, -size.height)
             canvas.save()
 
-            //找出15天中每天中的最高温度和最低温度
-            var maxTep = dailyTemperature[0].max
-            var minTep = dailyTemperature[0].min
-            for (index in dailyTemperature.indices) {
-                if (maxTep < dailyTemperature[index].max) {
-                    maxTep = dailyTemperature[index].max
-                }
-                if (minTep > dailyTemperature[index].min) {
-                    minTep = dailyTemperature[index].min
-                }
-            }
-
             // x 轴中心
             val centreX = (size.width / 2)
             // 每一度温度所占高度
-            val yAxisInterval = (size.height / (maxTep - minTep))
+            val yAxisInterval = (size.height / (temperature.first - temperature.second))
             // 白天温度所在的 y 轴位置
-            val tempDayOffsetY = yAxisInterval * (dayCurrentTep - minTep)
+            val tempDayOffsetY = yAxisInterval * (dayCurrentTep - temperature.second)
             // 夜间温度所在的 y 轴位置
-            val tempNightOffsetY = yAxisInterval * (nightCurrentTep - minTep)
+            val tempNightOffsetY = yAxisInterval * (nightCurrentTep - temperature.second)
 
             //高温和低温交接圆点位置集合
             val dataDotList: List<Offset> = listOf(
-                Offset(centreX, yAxisInterval * (dayCurrentTep - minTep)),
-                Offset(centreX, yAxisInterval * (nightCurrentTep - minTep))
+                Offset(centreX, yAxisInterval * (dayCurrentTep - temperature.second)),
+                Offset(centreX, yAxisInterval * (nightCurrentTep - temperature.second))
             )
 
             // 高温前后的中点温度值集合
@@ -110,14 +113,14 @@ fun DailyTemperatureBrokenLineCanvas(
             // 绘制最高温度折线
             if (indexTep == 0) {
                 linePath.moveTo(centreX, tempDayOffsetY)
-                linePath.lineTo(size.width, yAxisInterval * (dataMax.first() - minTep))
+                linePath.lineTo(size.width, yAxisInterval * (dataMax.first() - temperature.second))
             } else if (indexTep > 0 && indexTep < dailyTemperature.size - 1) {
-                linePath.moveTo(0f, yAxisInterval * (dataMax[indexTep - 1] - minTep))
+                linePath.moveTo(0f, yAxisInterval * (dataMax[indexTep - 1] - temperature.second))
                 linePath.lineTo(centreX, tempDayOffsetY)
                 linePath.moveTo(centreX, tempDayOffsetY)
-                linePath.lineTo(size.width, yAxisInterval * (dataMax[indexTep] - minTep))
+                linePath.lineTo(size.width, yAxisInterval * (dataMax[indexTep] - temperature.second))
             } else if (indexTep == dailyTemperature.size - 1) {
-                linePath.moveTo(0f, yAxisInterval * (dataMax.last() - minTep))
+                linePath.moveTo(0f, yAxisInterval * (dataMax.last() - temperature.second))
                 linePath.lineTo(centreX, tempDayOffsetY)
             }
             canvas.drawPath(linePath, paint)
@@ -126,14 +129,14 @@ fun DailyTemperatureBrokenLineCanvas(
             // 绘制最低温度折线
             if (indexTep == 0) {
                 linePath.moveTo(centreX, tempNightOffsetY)
-                linePath.lineTo(size.width, yAxisInterval * (dataMin.first() - minTep))
+                linePath.lineTo(size.width, yAxisInterval * (dataMin.first() - temperature.second))
             } else if (indexTep > 0 && indexTep < dailyTemperature.size - 1) {
-                linePath.moveTo(0f, yAxisInterval * (dataMin[indexTep - 1] - minTep))
+                linePath.moveTo(0f, yAxisInterval * (dataMin[indexTep - 1] - temperature.second))
                 linePath.lineTo(centreX, tempNightOffsetY)
                 linePath.moveTo(centreX, tempNightOffsetY)
-                linePath.lineTo(size.width, yAxisInterval * (dataMin[indexTep] - minTep))
+                linePath.lineTo(size.width, yAxisInterval * (dataMin[indexTep] - temperature.second))
             } else if (indexTep == dailyTemperature.size - 1) {
-                linePath.moveTo(0f, yAxisInterval * (dataMin.last() - minTep))
+                linePath.moveTo(0f, yAxisInterval * (dataMin.last() - temperature.second))
                 linePath.lineTo(centreX, tempNightOffsetY)
             }
             canvas.drawPath(linePath, paint)

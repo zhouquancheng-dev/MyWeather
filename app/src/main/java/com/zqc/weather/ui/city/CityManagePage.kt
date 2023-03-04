@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -67,7 +68,6 @@ fun CityManagePage(
             backHandlingEnabled.value = false
         }
     }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +75,7 @@ fun CityManagePage(
     ) {
         CityHeaderContent(visibleCity = visible.value, onBackClick = onBackClick)
         CityListContentVisibility(
-            modifier = Modifier.offset(x = searchOffset.x.dp, y = searchOffset.y.dp),
+            modifier = Modifier.offset { IntOffset(searchOffset.x.dp.roundToPx(), searchOffset.y.dp.roundToPx()) },
             cityViewModel = cityViewModel,
             searchState = searchState,
             places = places,
